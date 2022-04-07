@@ -15,7 +15,7 @@ class gambar(db.Model):
     id = db.Column(db.Integer, unique=True,primary_key=True)
     tanggal = db.Column(db.Date, nullable=False, default=datetime.utcnow)
     filename = db.Column(db.String(200))
-    # path = db.Column(db.String(200))
+    path = db.Column(db.String(200))
 # db.create_all()
 
 UPLOAD_FOLDER = 'image/'
@@ -60,11 +60,11 @@ def upload_file():
     if success:
         try:
             filename = secure_filename(image.filename)
-            # urlpath = os.path.dirname(image.filename)
+            urlpath = os.path.join(app.config['UPLOAD_FOLDER'], filename)
 
             # print('ini path ',urlpath)
 
-            data = gambar(filename = filename)
+            data = gambar(filename = filename, path = urlpath)
             db.session.add(data)
             db.session.commit()
             
